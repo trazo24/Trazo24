@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Trazo 24 — Arquitectura y diseño de interiores</title>
+  <meta name="description" content="Trazo 24 es un estudio mexicano de arquitectura y diseño de interiores. Proyectos integrales del diseño a la ejecución, con cobertura nacional.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Trazo 24 — Arquitectura y diseño de interiores">
+  <meta property="og:description" content="Estudio mexicano de arquitectura y diseño de interiores.">
+  <style>
+/* ==========================================================================
+   TRAZO 24 — styles.css
+
+   1. Fuentes          6. Menú móvil        11. Servicios
+   2. Tokens           7. Cortina           12. Metodología
+   3. Base             8. Layout            13. Contacto y formulario
+   4. Utilidades       9. Imágenes          14. Movimiento reducido
+   5. Cabecera        10. Inicio
+   ========================================================================== */
+
+
+/* 1. FUENTES
+   Los archivos .woff2 van junto a este index.html. Si no existen, se usan las del sistema. */
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-display: swap;
+  src: local("Instrument Serif"), url("InstrumentSerif-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-display: swap;
+  src: local("Instrument Serif Italic"), url("InstrumentSerif-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-weight: 100 900;
+  font-display: swap;
+  src: local("Hanken Grotesk"), url("HankenGrotesk.woff2") format("woff2");
+}
+
+
+/* 2. TOKENS
+   Paleta: negro, beige, blanco y gris roca. */
+
+:root {
+  --black: #0b0b0a;
+  --beige: #efeae2;
+  --beige-deep: #ddd5c8;
+  --white: #ffffff;
+  --stone: #8a847a;        /* gris roca: líneas y detalles */
+  --stone-text: #5f5951;   /* gris roca oscuro: texto secundario (contraste AA) */
+  --rule: #bfb8ab;
+
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --margin: clamp(1.25rem, 4vw, 4rem);
+  --gap: clamp(1rem, 2vw, 2rem);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+
+/* 3. BASE */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body, h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+[hidden] { display: none !important; }
+
+body {
+  min-height: 100dvh;
+  overflow-x: clip;
+  background: var(--beige);
+  color: var(--black);
+  font: 400 1.0625rem/1.55 var(--sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+main:focus { outline: none; }
+h1:focus { outline: none; }
+
+:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+
+/* 4. UTILIDADES */
+
+.sr-only {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip {
+  position: absolute;
+  top: -4rem;
+  left: var(--margin);
+  z-index: 100;
+  padding: .6rem 1rem;
+  background: var(--black);
+  color: var(--beige);
+}
+.skip:focus { top: .5rem; }
+
+.eyebrow {
+  font: 600 .7rem/1.9 var(--sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--stone-text);
+}
+
+.lead {
+  max-width: 28rem;
+  font: 400 clamp(1.15rem, 1.5vw, 1.4rem)/1.4 var(--serif);
+}
+
+.sub {
+  max-width: 34rem;
+  color: var(--stone-text);
+}
+
+.rule {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: var(--rule);
+  transform-origin: left;
+}
+.rule--short { width: 3rem; background: var(--stone); }
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font: 600 .7rem var(--sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.arrow i {
+  position: relative;
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: currentColor;
+  transition: width .6s var(--ease-out);
+}
+.arrow i::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  transform: rotate(45deg);
+}
+.arrow:hover i { width: 4.5rem; }
+
+.btn {
+  display: inline-block;
+  padding: 1.05rem 1.8rem;
+  border: 1px solid var(--black);
+  background: var(--black);
+  color: var(--beige);
+  font: 600 .72rem var(--sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .35s, color .35s;
+}
+.btn:hover { background: transparent; color: var(--black); }
+
+.display {
+  font: 400 clamp(3.4rem, 6.2vw, 7.5rem)/.88 var(--serif);
+  letter-spacing: -.035em;
+}
+.display--md { font-size: clamp(2.6rem, 4.6vw, 5.2rem); line-height: .95; }
+.display em { font-style: italic; }
+
+/* Línea enmascarada: el texto sube desde abajo (lo anima transitions.js) */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: .12em;
+  margin-bottom: -.12em;
+}
+.line > span { display: block; }
+
+
+/* 5. CABECERA */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem var(--margin);
+  background: var(--beige);
+}
+
+.logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 10rem;
+  min-width: 10rem;
+}
+.logo img {
+  display: none;
+  height: 100%;
+  width: auto;
+  max-width: 20rem;
+  object-fit: contain;
+  object-position: left;
+}
+@media (max-width: 860px) {
+  .logo { height: 3rem; }
+  .logo img { max-width: 12rem; }
+}
+
+.logo.is-loaded img { display: block; }
+.logo.is-loaded .ph__label { display: none; }
+.logo:not(.is-loaded) .ph__label { padding: .55rem .7rem; border: 1px dashed var(--stone); }
+
+.nav { margin-left: auto; }
+.nav ul { display: flex; gap: clamp(1.2rem, 2.8vw, 3rem); }
+.nav a {
+  position: relative;
+  padding: .5rem 0;
+  font: 400 1.15rem var(--serif);
+  text-decoration: none;
+}
+.nav a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: .3rem;
+  left: 0;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s var(--ease-out);
+}
+.nav a:hover::after,
+.nav a[aria-current]::after { transform: scaleX(1); }
+
+.header-tools { display: flex; align-items: center; gap: 1.2rem; }
+
+.langs { display: flex; gap: .2rem; }
+.langs button,
+.burger,
+.menu__close {
+  min-height: 2.75rem;
+  padding: .55rem .6rem;
+  border: 0;
+  background: none;
+  color: var(--stone-text);
+  font: 600 .72rem var(--sans);
+  letter-spacing: .14em;
+  cursor: pointer;
+}
+.langs button[aria-pressed="true"] {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: .4em;
+}
+.langs button:hover,
+.burger:hover { color: var(--black); }
+
+.burger { display: none; color: var(--black); text-transform: uppercase; }
+
+@media (max-width: 860px) {
+  .nav { display: none; }
+  .burger { display: block; }
+}
+
+
+/* 6. MENÚ MÓVIL */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem var(--margin) 2rem;
+  background: var(--black);
+  color: var(--beige);
+}
+.menu :focus-visible { outline-color: var(--beige); }
+
+.menu__close {
+  align-self: flex-end;
+  color: var(--beige);
+  text-transform: uppercase;
+}
+.menu ul { margin: auto 0; }
+.menu li a {
+  display: block;
+  padding: .15rem 0;
+  font: 400 clamp(2.8rem, 13vw, 4.8rem)/1.15 var(--serif);
+  text-decoration: none;
+  opacity: .55;
+  transition: opacity .3s;
+}
+.menu li a:hover,
+.menu li a[aria-current] { opacity: 1; }
+.menu .langs button { color: var(--stone); font-size: .85rem; }
+.menu .langs button[aria-pressed="true"] { color: var(--beige); }
+
+
+/* 7. CORTINA — transición entre secciones (animada desde transitions.js) */
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  overflow: hidden;
+  pointer-events: none;
+}
+.curtain__strip {
+  flex: 1;
+  background: var(--black);
+  transform: translateY(101%);
+  will-change: transform;
+}
+.curtain__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--beige);
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+.curtain__num {
+  font: 600 .72rem var(--sans);
+  letter-spacing: .3em;
+}
+.curtain__name {
+  font: 400 clamp(2.8rem, 10vw, 8rem)/1 var(--serif);
+  letter-spacing: -.03em;
+}
+
+
+/* 8. LAYOUT */
+
+.view { padding: clamp(1.5rem, 4vw, 3rem) var(--margin) 6rem; }
+
+.split {
+  display: grid;
+  gap: 2.5rem;
+}
+.split__text { display: flex; flex-direction: column; align-items: flex-start; gap: 1.6rem; }
+
+/* En móvil la imagen ocupa todo el ancho de la pantalla */
+.split--bleed .split__media { margin-inline: calc(var(--margin) * -1); }
+
+@media (min-width: 900px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(2rem, 3vw, 3.5rem);
+    align-items: start;
+  }
+  /* En escritorio la imagen llega hasta el borde derecho */
+  .split--bleed .split__media { margin: 0 calc(var(--margin) * -1) 0 0; }
+}
+
+.frame { overflow: hidden; }
+
+
+/* 9. IMÁGENES Y PLACEHOLDERS
+   Mientras no exista el archivo junto a este index.html, se muestra el contenedor
+   con el nombre del archivo. Al existir, la imagen aparece sola. */
+
+.ph {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  overflow: hidden;
+  background: var(--beige-deep);
+  transition: transform 1.2s var(--ease-out);
+}
+.ph img {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ph.is-loaded img { display: block; }
+.ph.is-loaded .ph__label { display: none; }
+
+.ph__label {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: 1rem 1.2rem;
+  font: 600 .68rem var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--stone-text);
+}
+.ph__label small { font: 400 .72rem var(--sans); letter-spacing: .04em; text-transform: none; }
+
+.ratio-hero { aspect-ratio: 5 / 4; }
+.ratio-card { aspect-ratio: 5 / 4; }
+.ratio-land { aspect-ratio: 4 / 3; }
+.ratio-port { aspect-ratio: 4 / 5; }
+.ratio-icon { background: transparent; }
+.ratio-icon img { object-fit: contain; padding: 4rem; }
+@media (min-width: 900px) { .ratio-hero { aspect-ratio: 4 / 3; } }
+@media (min-width: 900px) {
+  .split--bleed .ratio-icon img { padding-right: calc(4rem + var(--margin)); }
+}
+
+
+/* 10. INICIO */
+
+.featured__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem 0;
+}
+.featured__grid {
+  display: grid;
+  gap: var(--gap);
+  padding-bottom: 3.5rem;
+}
+@media (min-width: 760px) { .featured__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card { display: block; text-decoration: none; }
+.card:hover .ph { transform: scale(1.04); }
+.card h3 { margin: 1.1rem 0 .8rem; font: 400 1.6rem/1.1 var(--serif); }
+.card__cap { display: flex; gap: 1.2rem; align-items: flex-start; color: var(--stone-text); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; line-height: 1.7; }
+.card__cap::before { content: ""; flex: none; width: 2.5rem; height: 1px; margin-top: .8em; background: var(--stone); }
+
+.tagline {
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font: 600 .68rem var(--sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--stone-text);
+}
+
+.split--second { padding-top: 3.5rem; border-top: 1px solid var(--rule); margin-top: 0; }
+
+
+/* 11. SERVICIOS — lista editorial (sin imágenes) */
+
+.services__head { display: flex; flex-direction: column; align-items: flex-start; gap: 1.4rem; margin-bottom: 3rem; }
+
+.svc-list { border-bottom: 1px solid var(--rule); }
+
+.svc {
+  position: relative;
+  display: grid;
+  gap: .5rem 2rem;
+  padding: 1.7rem 0;
+  border-top: 1px solid var(--rule);
+  transition: background .5s;
+}
+/* Línea negra que se dibuja al pasar el cursor */
+.svc::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .9s var(--ease-out);
+}
+.svc__num {
+  font: 600 .7rem var(--sans);
+  letter-spacing: .2em;
+  color: var(--stone-text);
+  transition: color .4s;
+}
+.svc__name {
+  font: 400 clamp(2rem, 4.6vw, 4rem)/1 var(--serif);
+  letter-spacing: -.03em;
+  transition: transform .8s var(--ease-out);
+}
+.svc__desc { max-width: 30rem; color: var(--stone-text); transition: color .4s; }
+
+@media (min-width: 900px) {
+  .svc {
+    grid-template-columns: 4rem minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: baseline;
+    padding: 2.1rem 0;
+  }
+  .svc__desc { justify-self: end; }
+}
+
+@media (hover: hover) {
+  .svc:hover { background: rgba(255, 255, 255, .45); }
+  .svc:hover::before { transform: scaleX(1); }
+  .svc:hover .svc__num,
+  .svc:hover .svc__desc { color: var(--black); }
+  .svc:hover .svc__name { transform: translateX(.8rem); }
+}
+
+.services__cta { margin-top: 3rem; }
+
+
+/* 12. METODOLOGÍA */
+
+.method__head { display: flex; flex-direction: column; align-items: flex-start; gap: 1.4rem; margin-bottom: 3.5rem; }
+
+.method__item {
+  display: grid;
+  grid-template-columns: minmax(4.5rem, 1fr) 4fr;
+  gap: 1rem 2rem;
+  padding: 1.8rem 0 2.2rem;
+  border-top: 1px solid var(--rule);
+}
+.method__item b { font: 400 clamp(3.5rem, 9vw, 8rem)/.85 var(--serif); color: var(--stone); }
+.method__item h3 { margin-bottom: .5rem; font: 400 clamp(1.8rem, 3.5vw, 2.8rem)/1.05 var(--serif); }
+.method__item p { max-width: 38rem; color: var(--stone-text); }
+
+@media (min-width: 900px) {
+  .method__item { grid-template-columns: 3fr 2fr 6fr; }
+  .method__item > div { display: contents; }
+  .method__item h3 { margin: 0; }
+}
+
+
+/* 13. CONTACTO Y FORMULARIO */
+
+.form { display: flex; flex-direction: column; gap: 1.4rem; }
+.field { display: flex; flex-direction: column; gap: .4rem; }
+
+.form label {
+  font: 600 .7rem var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--stone-text);
+}
+
+.form input:not([type="checkbox"]),
+.form select,
+.form textarea {
+  width: 100%;
+  min-height: 2.9rem;
+  padding: .7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--black);
+  border-radius: 0;
+  background: transparent;
+  color: var(--black);
+  font: 400 1rem var(--sans);
+}
+.form textarea {
+  min-height: 7rem;
+  padding: .7rem;
+  border: 1px solid var(--black);
+  background: var(--white);
+  resize: vertical;
+}
+.form [aria-invalid="true"] { background: var(--beige-deep); }
+
+.field-error { font-size: .85rem; font-weight: 600; }
+
+.field--check { flex-direction: row; align-items: flex-start; gap: .8rem; }
+.field--check input { flex: none; width: 1.4rem; height: 1.4rem; margin-top: .15rem; accent-color: var(--black); }
+.field--check label { font: 400 .9rem/1.4 var(--sans); letter-spacing: 0; text-transform: none; }
+
+.form__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem 1.4rem;
+  padding: .8rem 1rem;
+  border-left: 3px solid var(--black);
+  background: var(--beige-deep);
+}
+.form__status:empty { display: none; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form__status small { flex-basis: 100%; color: var(--stone-text); }
+
+
+/* PROYECTOS — GALERÍA
+   Cada proyecto lleva un encabezado de texto (número, nombre, datos) y debajo
+   sus fotos en una composición editorial asimétrica. */
+
+.projects { margin-top: 0; }
+
+.project { padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+.project + .project { margin-top: clamp(4rem, 9vw, 8rem); }
+
+.project__head {
+  display: grid;
+  gap: .6rem 2rem;
+  align-items: baseline;
+  margin-bottom: 2.5rem;
+}
+.project__num {
+  font: 600 .7rem var(--sans);
+  letter-spacing: .22em;
+  color: var(--stone-text);
+}
+.project__name {
+  font: 400 clamp(2.2rem, 4.2vw, 4.4rem)/.95 var(--serif);
+  letter-spacing: -.03em;
+}
+.project__meta {
+  font: 600 .68rem/1.9 var(--sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--stone-text);
+}
+
+.gallery { display: grid; gap: var(--gap); }
+.gallery__item .ph img { transition: transform 1.6s var(--ease-out); }
+.gallery__item:hover .ph img { transform: scale(1.04); }
+
+@media (min-width: 760px) {
+  .project__head { grid-template-columns: 3rem 1fr auto; margin-bottom: 3.5rem; }
+  .project__meta { text-align: right; }
+
+  .gallery {
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(1.5rem, 3vw, 3rem) var(--gap);
+    align-items: start;
+  }
+  .gallery__item:nth-child(4n+1) { grid-column: 1 / span 7; }
+  .gallery__item:nth-child(4n+2) { grid-column: 8 / span 5; margin-top: 5rem; }
+  .gallery__item:nth-child(4n+3) { grid-column: 2 / span 4; }
+  .gallery__item:nth-child(4n+4) { grid-column: 6 / span 7; margin-top: 3rem; }
+
+  /* Proyectos pares: composición invertida (vertical a la izquierda) */
+  .project--alt .gallery__item:nth-child(1) { grid-column: 1 / span 5; }
+  .project--alt .gallery__item:nth-child(2) { grid-column: 6 / span 7; margin-top: 4rem; }
+}
+
+/* Las fotos aparecen suavemente al hacer scroll (donde el navegador lo soporte) */
+@keyframes gallery-in { from { opacity: 0; transform: translateY(3rem); } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gallery__item {
+      animation: gallery-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+
+
+/* GALERÍA DE INICIO — imagen 7 + imagen 8 con pie de foto */
+
+.hero-gallery { display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.5rem); padding-bottom: 2.5rem; }
+.hero-gallery__extra { margin-inline: var(--margin); }
+.hero-gallery__extra figcaption {
+  margin-top: .9rem;
+  font: 600 .68rem/1.8 var(--sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--stone-text);
+}
+@media (min-width: 900px) {
+  .hero-gallery__extra { width: min(26rem, 62%); margin: 0 0 0 clamp(0rem, 6vw, 6rem); }
+}
+
+
+/* FONDO ANIMADO
+   Luz, malla de planos y un haz que cruza la pantalla muy despacio.
+   Solo usa transform y opacity; se apaga con movimiento reducido. */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+#view { position: relative; z-index: 1; }
+
+.ambient__blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+.ambient__blob--1 {
+  top: -18vmax; left: -16vmax; width: 60vmax; height: 60vmax;
+  background: radial-gradient(circle, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0) 65%);
+  animation: drift-a 26s ease-in-out infinite alternate;
+}
+.ambient__blob--2 {
+  top: 20vh; right: -18vmax; width: 52vmax; height: 52vmax;
+  background: radial-gradient(circle, rgba(221, 213, 200, .95), rgba(221, 213, 200, 0) 65%);
+  animation: drift-b 32s ease-in-out infinite alternate;
+}
+.ambient__blob--3 {
+  bottom: -20vmax; left: 20vw; width: 46vmax; height: 46vmax;
+  background: radial-gradient(circle, rgba(138, 132, 122, .28), rgba(138, 132, 122, 0) 65%);
+  animation: drift-c 38s ease-in-out infinite alternate;
+}
+@keyframes drift-a { to { transform: translate3d(22vw, 14vh, 0) scale(1.15); } }
+@keyframes drift-b { to { transform: translate3d(-20vw, -12vh, 0) scale(.9); } }
+@keyframes drift-c { to { transform: translate3d(-12vw, -16vh, 0) scale(1.2); } }
+
+/* Malla de planos que se desplaza sin fin (la distancia = una celda) */
+.ambient__mesh {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 25%, #000, transparent 72%);
+          mask-image: radial-gradient(ellipse at 70% 25%, #000, transparent 72%);
+}
+.ambient__mesh::before {
+  content: "";
+  position: absolute;
+  inset: -9rem;
+  background:
+    linear-gradient(to right, rgba(138, 132, 122, .22) 1px, transparent 1px) 0 0 / 9rem 9rem,
+    linear-gradient(to bottom, rgba(138, 132, 122, .16) 1px, transparent 1px) 0 0 / 9rem 9rem;
+  animation: mesh 45s linear infinite;
+}
+@keyframes mesh { to { transform: translate3d(9rem, 9rem, 0); } }
+
+/* Haz de luz diagonal, como el sol sobre un muro */
+.ambient__beam {
+  position: absolute;
+  top: -20%; bottom: -20%; left: -30%;
+  width: 26%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .6), transparent);
+  animation: beam 18s ease-in-out infinite;
+}
+@keyframes beam {
+  0%   { transform: translateX(0) skewX(-18deg); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateX(520%) skewX(-18deg); opacity: 0; }
+}
+
+
+/* 14. MOVIMIENTO REDUCIDO
+   transitions.js ya omite la cortina y las animaciones de entrada; esto cubre el resto. */
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient *, .ambient *::before { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: .01ms !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Fondo animado (decorativo) -->
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient__blob ambient__blob--1"></span>
+    <span class="ambient__blob ambient__blob--2"></span>
+    <span class="ambient__blob ambient__blob--3"></span>
+    <span class="ambient__mesh"></span>
+    <span class="ambient__beam"></span>
+  </div>
+
+  <a class="skip" id="skip" href="#view"></a>
+
+  <header class="site-header" id="header">
+    <a class="logo" id="logo" href="#/es/inicio">
+      <img src="logo.png" alt="Trazo 24">
+      <span class="ph__label">Logo.png</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal"><ul id="nav-list"></ul></nav>
+
+    <div class="header-tools">
+      <div class="langs" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu"></button>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" role="dialog" aria-modal="true" hidden>
+    <button class="menu__close" id="menu-close" type="button"></button>
+    <nav aria-label="Principal"><ul id="menu-list"></ul></nav>
+    <div class="langs" role="group" aria-label="Idioma">
+      <button type="button" data-lang="es">ES</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+  </div>
+
+  <main id="view" tabindex="-1"></main>
+
+  <!-- Cortina de las transiciones (la anima transitions.js) -->
+  <div class="curtain" id="curtain" aria-hidden="true">
+    <div class="curtain__strip"></div>
+    <div class="curtain__strip"></div>
+    <div class="curtain__strip"></div>
+    <div class="curtain__strip"></div>
+    <div class="curtain__strip"></div>
+    <div class="curtain__label">
+      <span class="curtain__num"></span>
+      <span class="curtain__name"></span>
+    </div>
+  </div>
+
+  <p class="sr-only" id="live" role="status"></p>
+
+  <!-- El orden importa: cada bloque usa lo que define el anterior -->
+
+  <!-- ===================== config.js ===================== -->
+  <script>
+/* Configuración editable del sitio. */
+window.Trazo = {
+  config: {
+    // Correo de contacto de Trazo 24.
+    email: "trazo24arquitectura@gmail.com",
+
+    // Servicio que recibe el formulario y lo reenvía al correo de arriba (FormSubmit).
+    // Si lo dejas vacío, el formulario solo prepara el correo para que la persona lo envíe.
+    formEndpoint: "https://formsubmit.co/ajax/trazo24arquitectura@gmail.com",
+
+    // Alternativa más sencilla: llave de Web3Forms (web3forms.com).
+    // Si pones aquí la llave, se usa Web3Forms en lugar de FormSubmit.
+    web3formsKey: ""
+  },
+  state: { lang: "es", route: null }
+};
+  </script>
+
+  <!-- ===================== content.js ===================== -->
+  <script>
+/* Contenido del sitio (textos ES/EN y servicios). Edita aquí los textos. */
+window.Trazo = window.Trazo || {};
+Trazo.content = {
+  "institutional": {
+    "es": "En Trazo 24 desarrollamos proyectos integrales acompañando a nuestros clientes desde el diseño hasta la ejecución. Nos adaptamos a sus necesidades, objetivos y presupuesto para crear soluciones funcionales, estéticas y personalizadas.",
+    "en": "At Trazo 24 we develop comprehensive projects, supporting our clients from design through to execution. We adapt to their needs, goals and budget to create functional, aesthetic and tailored solutions."
+  },
+  "services": [
+    {
+      "es": {
+        "name": "Arquitectura",
+        "description": "Diseño y desarrollo de proyectos arquitectónicos personalizados."
+      },
+      "en": {
+        "name": "Architecture",
+        "description": "Design and development of tailored architectural projects."
+      }
+    },
+    {
+      "es": {
+        "name": "Diseño de interiores",
+        "description": "Diseño de espacios interiores funcionales, estéticos y personalizados."
+      },
+      "en": {
+        "name": "Interior design",
+        "description": "Design of functional, aesthetic and tailored interior spaces."
+      }
+    },
+    {
+      "es": {
+        "name": "Visualización 3D",
+        "description": "Modelado y renders fotorrealistas para comunicar y visualizar cada proyecto."
+      },
+      "en": {
+        "name": "3D visualization",
+        "description": "Modeling and photorealistic renders to communicate and visualize each project."
+      }
+    },
+    {
+      "es": {
+        "name": "Remodelación",
+        "description": "Transformación y renovación de espacios residenciales y comerciales."
+      },
+      "en": {
+        "name": "Renovation",
+        "description": "Transformation and renewal of residential and commercial spaces."
+      }
+    },
+    {
+      "es": {
+        "name": "Proyecto ejecutivo",
+        "description": "Desarrollo de planos, detalles y documentación técnica para construcción."
+      },
+      "en": {
+        "name": "Construction documents",
+        "description": "Development of drawings, details and technical documentation for construction."
+      }
+    },
+    {
+      "es": {
+        "name": "Trámites y licencias",
+        "description": "Gestión y seguimiento de permisos y documentación necesaria para el proyecto."
+      },
+      "en": {
+        "name": "Permits and licensing",
+        "description": "Management and follow-up of the permits and documentation a project requires."
+      }
+    },
+    {
+      "es": {
+        "name": "Presupuestos y planeación",
+        "description": "Cuantificación, presupuestos y planeación de los recursos de obra."
+      },
+      "en": {
+        "name": "Budgeting and planning",
+        "description": "Quantification, budgets and planning of construction resources."
+      }
+    },
+    {
+      "es": {
+        "name": "Ejecución de obra",
+        "description": "Coordinación, supervisión y seguimiento del proyecto durante su construcción."
+      },
+      "en": {
+        "name": "Construction execution",
+        "description": "Coordination, supervision and follow-up of the project during construction."
+      }
+    }
+  ],
+  "projects": [
+    {
+      "photos": ["1.png", "2.png"],
+      "es": { "name": "Remodelación de cocina", "meta": "Colón, Querétaro, México" },
+      "en": { "name": "Kitchen renovation", "meta": "Colón, Querétaro, Mexico" }
+    },
+    {
+      "photos": ["5.png", "6.png"],
+      "es": { "name": "Casa habitación", "meta": "Colón, Querétaro, México" },
+      "en": { "name": "Residential house", "meta": "Colón, Querétaro, Mexico" }
+    },
+    {
+      "photos": ["3.png", "4.png"],
+      "es": { "name": "SJR", "meta": "Departamento · Diseño de cocina · Querétaro, México" },
+      "en": { "name": "SJR", "meta": "Apartment · Kitchen design · Querétaro, Mexico" }
+    },
+    {
+      "photos": ["ISLA.png", "GENERALL.png"],
+      "es": { "name": "LA VISTA", "meta": "Residencial Premium · Querétaro, México" },
+      "en": { "name": "LA VISTA", "meta": "Premium residential · Querétaro, Mexico" }
+    }
+  ],
+  "ui": {
+    "es": {
+      "nav": [
+        "Inicio",
+        "Estudio",
+        "Servicios",
+        "Proyectos",
+        "Metodología",
+        "Contacto"
+      ],
+      "menu": "Menú",
+      "close": "Cerrar",
+      "skip": "Ir al contenido",
+      "home": {
+        "eyebrow": [
+          "Arquitectura",
+          "Interiorismo",
+          "México"
+        ],
+        "h": "Del <em>trazo</em>|a la obra.",
+        "cta": "Ver servicios",
+        "alt": "Portada de Trazo 24",
+        "featuredLabel": "Servicios destacados",
+        "featuredAll": "Ver todos",
+        "s2h": "Espacios|pensados|para vivirse.",
+        "s2p": "Nos adaptamos a tus necesidades, objetivos y presupuesto para crear soluciones funcionales, estéticas y personalizadas.",
+        "s2cta": "El estudio",
+        "s2alt": "Imagen del estudio",
+        "heroCaption": "Casa habitación, Colinas del Cimatario, Querétaro, México",
+        "footer": [
+          "Diseño",
+          "Espacio",
+          "Ejecución"
+        ]
+      },
+      "ph": "Placeholder de desarrollo",
+      "meta": "Trazo 24 es un estudio mexicano de arquitectura y diseño de interiores. Proyectos integrales del diseño a la ejecución, con cobertura nacional.",
+      "studio": {
+        "ey": "Estudio",
+        "h": "Diseño y ejecución,|en un mismo <em>trazo</em>.",
+        "p": "Integramos el diseño con la planeación y la ejecución para que cada decisión pueda llevarse al espacio construido, según el alcance acordado con cada cliente.",
+        "n": "Atendemos proyectos residenciales y comerciales en todo México.",
+        "alt": "Imagen del estudio"
+      },
+      "sv": {
+        "ey": "Servicios",
+        "h": "Ocho formas de|trabajar el <em>espacio</em>.",
+        "n": "El alcance de cada servicio depende del proyecto y de lo que se acuerde con el cliente.",
+        "list": "Servicios",
+        "cta": "Solicitar cotización"
+      },
+      "pr": {
+        "ey": "Proyectos",
+        "h": "Proyectos|<em>seleccionados</em>.",
+        "p": "Una selección de proyectos de Trazo 24: remodelación, vivienda y diseño de cocinas.",
+        "n": "Querétaro, México"
+      },
+      "me": {
+        "ey": "Metodología",
+        "h": "Cinco etapas,|un solo <em>proceso</em>.",
+        "p": "En Trazo 24 trabajamos mediante una metodología integral que conecta las necesidades del cliente con el diseño, la planeación y la ejecución del proyecto. Nuestro proceso se estructura en etapas que permiten definir objetivos, visualizar soluciones, anticipar necesidades y dar seguimiento al desarrollo de cada proyecto.",
+        "s": [
+          [
+            "Análisis",
+            "Comprensión de necesidades, objetivos, condiciones y presupuesto."
+          ],
+          [
+            "Diseño",
+            "Desarrollo conceptual y definición de soluciones."
+          ],
+          [
+            "Planeación y documentación",
+            "Preparación de la información técnica y organización del proyecto, según el alcance contratado."
+          ],
+          [
+            "Ejecución",
+            "Coordinación y desarrollo de obra cuando forme parte del servicio contratado."
+          ],
+          [
+            "Seguimiento",
+            "Revisión del avance y comunicación con el cliente según las condiciones acordadas."
+          ]
+        ]
+      },
+      "ct": {
+        "ey": "Contacto",
+        "h": "Hablemos de|tu <em>proyecto</em>.",
+        "p": "Cuéntanos qué necesitas y solicita una cotización.",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "pt": "Tipo de proyecto",
+        "pts": [
+          "Residencial",
+          "Comercial",
+          "Otro"
+        ],
+        "sv": "Servicio de interés",
+        "svn": "Aún no sé cuál necesito",
+        "loc": "Ubicación general en México (opcional)",
+        "bud": "Presupuesto aproximado (opcional)",
+        "msg": "Describe tu necesidad",
+        "consent": "Entiendo que estos datos se usarán solo para responder a mi solicitud de cotización.",
+        "send": "Enviar solicitud",
+        "sel": "Selecciona una opción",
+        "e": {
+          "req": "Este campo es obligatorio.",
+          "email": "Escribe un correo válido.",
+          "short": "Cuéntanos un poco más (mínimo 10 caracteres).",
+          "consent": "Necesitamos que aceptes para continuar."
+        },
+        "sending": "Enviando…",
+        "ok": "Solicitud enviada. Gracias por escribirnos.",
+        "fail": "No pudimos enviar tu solicitud. Inténtalo de nuevo más tarde.",
+        "failMail": "No pudimos enviar tu solicitud automáticamente. Puedes enviarla desde tu correo:",
+        "off": "El formulario aún no está habilitado para recibir solicitudes.",
+        "ready": "Tu solicitud está lista. Elige cómo enviarla desde tu correo:",
+        "app": "Abrir mi app de correo",
+        "gmail": "Abrir en Gmail",
+        "note": "El mensaje solo se envía cuando lo mandas desde tu correo.",
+        "subject": "Solicitud de cotización"
+      },
+      "logo": "Trazo 24, ir a Inicio"
+    },
+    "en": {
+      "nav": [
+        "Home",
+        "Studio",
+        "Services",
+        "Projects",
+        "Method",
+        "Contact"
+      ],
+      "menu": "Menu",
+      "close": "Close",
+      "skip": "Skip to content",
+      "home": {
+        "eyebrow": [
+          "Architecture",
+          "Interiors",
+          "Mexico"
+        ],
+        "h": "From <em>sketch</em>|to site.",
+        "cta": "View services",
+        "alt": "Trazo 24 cover",
+        "featuredLabel": "Featured services",
+        "featuredAll": "View all",
+        "s2h": "Spaces|made to be|lived in.",
+        "s2p": "We adapt to your needs, goals and budget to create functional, aesthetic and tailored solutions.",
+        "s2cta": "The studio",
+        "s2alt": "Studio image",
+        "heroCaption": "Residential house, Colinas del Cimatario, Querétaro, Mexico",
+        "footer": [
+          "Design",
+          "Space",
+          "Execution"
+        ]
+      },
+      "ph": "Development placeholder",
+      "meta": "Trazo 24 is a Mexican architecture and interior design studio. Comprehensive projects from design to execution, with nationwide coverage.",
+      "studio": {
+        "ey": "Studio",
+        "h": "Design and execution,|in a single <em>line</em>.",
+        "p": "We bring design, planning and execution together so that each decision can carry through to the built space, within the scope agreed with each client.",
+        "n": "We take on residential and commercial projects across Mexico.",
+        "alt": "Studio image"
+      },
+      "sv": {
+        "ey": "Services",
+        "h": "Eight ways to|work with <em>space</em>.",
+        "n": "The scope of each service depends on the project and on what is agreed with the client.",
+        "list": "Services",
+        "cta": "Request a quote"
+      },
+      "pr": {
+        "ey": "Projects",
+        "h": "Selected|<em>projects</em>.",
+        "p": "A selection of Trazo 24 projects: renovation, housing and kitchen design.",
+        "n": "Querétaro, Mexico"
+      },
+      "me": {
+        "ey": "Method",
+        "h": "Five stages,|one <em>process</em>.",
+        "p": "At Trazo 24 we work through a comprehensive method that connects the client's needs with the design, planning and execution of the project. Our process is structured in stages that let us define goals, visualize solutions, anticipate needs and follow the development of each project.",
+        "s": [
+          [
+            "Analysis",
+            "Understanding needs, goals, conditions and budget."
+          ],
+          [
+            "Design",
+            "Conceptual development and definition of solutions."
+          ],
+          [
+            "Planning and documentation",
+            "Preparation of technical information and organization of the project, according to the contracted scope."
+          ],
+          [
+            "Execution",
+            "Coordination and development of the works when they are part of the contracted service."
+          ],
+          [
+            "Follow-up",
+            "Review of progress and communication with the client according to the agreed terms."
+          ]
+        ]
+      },
+      "ct": {
+        "ey": "Contact",
+        "h": "Let's talk about|your <em>project</em>.",
+        "p": "Tell us what you need and request a quote.",
+        "name": "Name",
+        "email": "Email",
+        "pt": "Project type",
+        "pts": [
+          "Residential",
+          "Commercial",
+          "Other"
+        ],
+        "sv": "Service of interest",
+        "svn": "I'm not sure yet",
+        "loc": "General location in Mexico (optional)",
+        "bud": "Approximate budget (optional)",
+        "msg": "Describe your need",
+        "consent": "I understand this data will be used only to respond to my quote request.",
+        "send": "Send request",
+        "sel": "Select an option",
+        "e": {
+          "req": "This field is required.",
+          "email": "Enter a valid email address.",
+          "short": "Tell us a bit more (at least 10 characters).",
+          "consent": "We need you to agree to continue."
+        },
+        "sending": "Sending…",
+        "ok": "Request sent. Thank you for writing to us.",
+        "fail": "We couldn't send your request. Please try again later.",
+        "failMail": "We couldn't send your request automatically. You can send it from your email:",
+        "off": "The form is not yet enabled to receive requests.",
+        "ready": "Your request is ready. Choose how to send it from your email:",
+        "app": "Open my email app",
+        "gmail": "Open in Gmail",
+        "note": "The message is only sent once you send it from your email.",
+        "subject": "Quote request"
+      },
+      "logo": "Trazo 24, go to Home"
+    }
+  }
+};
+  </script>
+
+  <!-- ===================== views.js ===================== -->
+  <script>
+/* ==========================================================================
+   views.js — plantillas de las seis secciones
+
+   Cada vista devuelve HTML como texto. Los atributos data-* le indican a
+   transitions.js cómo revelar cada elemento:
+     data-line  titular por líneas     data-rise  texto que sube
+     data-rule  línea que se dibuja    data-mask  imagen con máscara
+   ========================================================================== */
+
+(function (Trazo) {
+  "use strict";
+
+  const { content, state } = Trazo;
+
+  /* --- accesos rápidos --------------------------------------------------- */
+
+  const ui = () => content.ui[state.lang];
+  const service = i => content.services[i][state.lang];
+  const href = route => `#/${state.lang}/${route}`;
+
+  /* --- piezas reutilizables ---------------------------------------------- */
+
+  const lines = text =>
+    text.split("|").map(l => `<span class="line" data-line><span>${l}</span></span>`).join("");
+
+  const rise = (html, tag = "div", cls = "") =>
+    `<${tag} class="${cls}" data-rise>${html}</${tag}>`;
+
+  const rule = (cls = "") => `<hr class="rule ${cls}" data-rule>`;
+
+  const frame = (inner, cls = "") => `<div class="frame ${cls}" data-mask>${inner}</div>`;
+
+  const arrow = (to, label) =>
+    `<a class="arrow" href="${to}" data-rise>${label}<i aria-hidden="true"></i></a>`;
+
+  const placeholder = (file, ratio, alt) => `
+    <figure class="ph ${ratio}">
+      <img src="${file}" alt="${alt}" decoding="async">
+      <figcaption class="ph__label">${file}<small>${ui().ph}</small></figcaption>
+    </figure>`;
+
+  /* --- vistas ------------------------------------------------------------ */
+
+  const views = {
+
+    inicio() {
+      const t = ui().home;
+      const featured = [0, 1, 3];   // servicios que se destacan en la portada
+      const icons = ["arqui.png", "dis.png", "remo.png"];
+      const cards = featured.map((i, n) => {
+        const s = service(i);
+        return `
+          <li>
+            <a class="card" href="${href("servicios")}">
+              ${frame(placeholder(icons[n], "ratio-card ratio-icon", s.name))}
+              <h3>${s.name}</h3>
+              <p class="card__cap">${s.description}</p>
+            </a>
+          </li>`;
+      }).join("");
+
+      return `
+        <section class="view" aria-labelledby="title">
+          <div class="split split--bleed">
+            <div class="split__text">
+              ${rise(t.eyebrow.join("<br>"), "p", "eyebrow")}
+              ${rule("rule--short")}
+              <h1 id="title" class="display" tabindex="-1">${lines(t.h)}</h1>
+              ${rise(content.institutional[state.lang], "p", "lead")}
+              ${arrow(href("servicios"), t.cta)}
+            </div>
+            <div class="split__media hero-gallery">
+              ${frame(placeholder("7.png", "ratio-hero", t.alt))}
+              <figure class="hero-gallery__extra">
+                ${frame(placeholder("8.png", "ratio-land", t.heroCaption))}
+                <figcaption data-rise>${t.heroCaption}</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          ${rule()}
+
+          <section aria-labelledby="featured">
+            <div class="featured__head">
+              <h2 id="featured" class="eyebrow" data-rise>${t.featuredLabel}</h2>
+              ${arrow(href("servicios"), t.featuredAll)}
+            </div>
+            <ul class="featured__grid">${cards}</ul>
+          </section>
+
+          <div class="split split--bleed split--second">
+            <div class="split__text">
+              <h2 class="display">${lines(t.s2h)}</h2>
+              ${rise(t.s2p, "p", "lead")}
+              ${arrow(href("estudio"), t.s2cta)}
+              ${rise(t.footer.join(" / "), "p", "tagline")}
+            </div>
+            ${frame(placeholder("9.png", "ratio-hero ratio-icon", t.s2alt), "split__media")}
+          </div>
+        </section>`;
+    },
+
+    estudio() {
+      const t = ui().studio;
+      return `
+        <section class="view" aria-labelledby="title">
+          <div class="split split--bleed">
+            <div class="split__text">
+              ${rise(t.ey, "p", "eyebrow")}
+              ${rule("rule--short")}
+              <h1 id="title" class="display display--md" tabindex="-1">${lines(t.h)}</h1>
+              ${rise(content.institutional[state.lang], "p", "lead")}
+              ${rise(t.p, "p", "sub")}
+              ${rise(t.n, "p", "eyebrow")}
+            </div>
+            ${frame(placeholder("10.png", "ratio-hero ratio-icon", t.alt), "split__media")}
+          </div>
+        </section>`;
+    },
+
+    servicios() {
+      const t = ui().sv;
+      const items = content.services.map((s, i) => {
+        const d = s[state.lang];
+        return `
+          <li class="svc" data-rise>
+            <span class="svc__num" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+            <h2 class="svc__name">${d.name}</h2>
+            <p class="svc__desc">${d.description}</p>
+          </li>`;
+      }).join("");
+
+      return `
+        <section class="view" aria-labelledby="title">
+          <div class="services__head">
+            ${rise(t.ey, "p", "eyebrow")}
+            ${rule("rule--short")}
+            <h1 id="title" class="display display--md" tabindex="-1">${lines(t.h)}</h1>
+            ${rise(t.n, "p", "sub")}
+          </div>
+          <ol class="svc-list" aria-label="${t.list}">${items}</ol>
+          <p class="services__cta">${arrow(href("contacto"), t.cta)}</p>
+        </section>`;
+    },
+
+    proyectos() {
+      const t = ui().pr;
+
+      const gallery = content.projects.map((p, i) => {
+        const d = p[state.lang];
+        const alt = i % 2 === 1;   // los proyectos pares invierten la composición
+        const shapes = alt ? ["ratio-port", "ratio-land"] : ["ratio-land", "ratio-port"];
+        const photos = p.photos.map((file, n) => `
+            <li class="gallery__item">
+              ${placeholder(file, shapes[n], `${d.name} — ${n + 1}`)}
+            </li>`).join("");
+        return `
+          <article class="project${alt ? " project--alt" : ""}" aria-labelledby="project-${i}">
+            <header class="project__head" data-rise>
+              <span class="project__num" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+              <h2 id="project-${i}" class="project__name">${d.name}</h2>
+              <p class="project__meta">${d.meta}</p>
+            </header>
+            <ul class="gallery">${photos}</ul>
+          </article>`;
+      }).join("");
+
+      return `
+        <section class="view" aria-labelledby="title">
+          <div class="services__head">
+            ${rise(t.ey, "p", "eyebrow")}
+            ${rule("rule--short")}
+            <h1 id="title" class="display display--md" tabindex="-1">${lines(t.h)}</h1>
+            ${rise(t.p, "p", "lead")}
+            ${rise(t.n, "p", "eyebrow")}
+          </div>
+          <div class="projects">${gallery}</div>
+        </section>`;
+    },
+
+    metodologia() {
+      const t = ui().me;
+      const stages = t.s.map((s, i) => `
+        <li class="method__item" data-rise>
+          <b aria-hidden="true">0${i + 1}</b>
+          <div><h3>${s[0]}</h3><p>${s[1]}</p></div>
+        </li>`).join("");
+
+      return `
+        <section class="view" aria-labelledby="title">
+          <div class="method__head">
+            ${rise(t.ey, "p", "eyebrow")}
+            ${rule("rule--short")}
+            <h1 id="title" class="display display--md" tabindex="-1">${lines(t.h)}</h1>
+            ${rise(t.p, "p", "sub")}
+          </div>
+          <ol>${stages}</ol>
+        </section>`;
+    },
+
+    contacto() {
+      const t = ui().ct;
+      const field = (id, label, control) => `
+        <div class="field">
+          <label for="${id}">${label}</label>
+          ${control}
+          <span class="field-error" id="error-${id}"></span>
+        </div>`;
+      const input = (id, type, autocomplete) =>
+        `<input id="${id}" name="${id}" type="${type}" autocomplete="${autocomplete}" aria-describedby="error-${id}">`;
+      const select = (id, options) =>
+        `<select id="${id}" name="${id}" aria-describedby="error-${id}">
+           <option value="">${t.sel}</option>${options.map(o => `<option>${o}</option>`).join("")}
+         </select>`;
+
+      const serviceNames = content.services.map(s => s[state.lang].name).concat(t.svn);
+
+      return `
+        <section class="view" aria-labelledby="title">
+          <div class="split">
+            <div class="split__text">
+              ${rise(t.ey, "p", "eyebrow")}
+              ${rule("rule--short")}
+              <h1 id="title" class="display display--md" tabindex="-1">${lines(t.h)}</h1>
+              ${rise(t.p, "p", "lead")}
+            </div>
+            ${rise(`
+              <form class="form" id="form" novalidate>
+                ${field("name", t.name, input("name", "text", "name"))}
+                ${field("email", t.email, input("email", "email", "email"))}
+                ${field("ptype", t.pt, select("ptype", t.pts))}
+                ${field("service", t.sv, select("service", serviceNames))}
+                ${field("location", t.loc, input("location", "text", "off"))}
+                ${field("budget", t.bud, input("budget", "text", "off"))}
+                ${field("message", t.msg, `<textarea id="message" name="message" aria-describedby="error-message"></textarea>`)}
+                <div class="field">
+                  <div class="field field--check">
+                    <input type="checkbox" id="consent" name="consent" aria-describedby="error-consent">
+                    <label for="consent">${t.consent}</label>
+                  </div>
+                  <span class="field-error" id="error-consent"></span>
+                </div>
+                <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <div class="form__status" id="status" role="status" tabindex="-1"></div>
+                <div><button class="btn" type="submit">${t.send}</button></div>
+              </form>`)}
+          </div>
+        </section>`;
+    }
+  };
+
+  Trazo.views = views;
+})(window.Trazo);
+  </script>
+
+  <!-- ===================== form.js ===================== -->
+  <script>
+/* ==========================================================================
+   form.js — formulario de cotización
+
+   - Valida en el cliente con mensajes claros.
+   - Si config.formEndpoint tiene un valor: envía los datos a ese endpoint
+     y solo muestra éxito si el servidor responde bien.
+   - Si está vacío: prepara el mensaje para enviarlo desde el correo de la
+     persona (app de correo o Gmail). No finge que se envió nada.
+   - No guarda datos personales en el navegador ni en la consola.
+   ========================================================================== */
+
+(function (Trazo) {
+  "use strict";
+
+  const { content, state, config } = Trazo;
+
+  function bind() {
+    const t = content.ui[state.lang].ct;
+    const form = document.getElementById("form");
+    const status = document.getElementById("status");
+
+    const rules = {
+      name:    v => (v.trim() ? "" : t.e.req),
+      email:   v => (!v.trim() ? t.e.req : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : t.e.email),
+      ptype:   v => (v ? "" : t.e.req),
+      service: v => (v ? "" : t.e.req),
+      message: v => (!v.trim() ? t.e.req : v.trim().length < 10 ? t.e.short : "")
+    };
+
+    /* Devuelve el primer campo inválido (o null) y pinta los errores */
+    function validate() {
+      let firstInvalid = null;
+
+      Object.entries(rules).forEach(([id, check]) => {
+        const field = form.elements[id];
+        const message = check(field.value);
+        document.getElementById(`error-${id}`).textContent = message;
+        if (message) {
+          field.setAttribute("aria-invalid", "true");
+          firstInvalid = firstInvalid || field;
+        } else {
+          field.removeAttribute("aria-invalid");
+        }
+      });
+
+      const consent = form.elements.consent;
+      document.getElementById("error-consent").textContent = consent.checked ? "" : t.e.consent;
+      if (consent.checked) consent.removeAttribute("aria-invalid");
+      else { consent.setAttribute("aria-invalid", "true"); firstInvalid = firstInvalid || consent; }
+
+      return firstInvalid;
+    }
+
+    /* Texto del correo con los datos del formulario */
+    function buildMessage() {
+      const v = id => form.elements[id].value.trim();
+      const subject = `${t.subject} — ${v("name")}`;
+      const details = [
+        `${t.name}: ${v("name")}`,
+        `${t.email}: ${v("email")}`,
+        `${t.pt}: ${v("ptype")}`,
+        `${t.sv}: ${v("service")}`,
+        v("location") && `${t.loc.replace(/ \(.*\)/, "")}: ${v("location")}`,
+        v("budget") && `${t.bud.replace(/ \(.*\)/, "")}: ${v("budget")}`
+      ].filter(Boolean);
+      const body = `${details.join("\n")}\n\n${v("message")}`;
+      return { subject, body };
+    }
+
+    /* Enlaces para enviar el mensaje desde el correo de la persona */
+    function showMailOptions(intro) {
+      const { subject, body } = buildMessage();
+      const q = `subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const mailto = `mailto:${config.email}?${q}`;
+      const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(config.email)}&${q}`;
+
+      status.innerHTML = `
+        <span>${intro}</span>
+        <a href="${mailto}">${t.app}</a>
+        <a href="${gmail}" target="_blank" rel="noopener">${t.gmail}</a>`;
+    }
+
+    /* Datos y destino según el servicio configurado */
+    function buildRequest() {
+      const fields = Object.fromEntries(new FormData(form));
+      const subject = buildMessage().subject;
+
+      if (config.web3formsKey) {
+        delete fields._honey;
+        return {
+          url: "https://api.web3forms.com/submit",
+          payload: { ...fields, access_key: config.web3formsKey, subject, from_name: "Trazo 24 — sitio web" }
+        };
+      }
+      return {
+        url: config.formEndpoint,
+        payload: { ...fields, _subject: subject, _template: "table", _captcha: "false" }
+      };
+    }
+
+    /* Envío automático: solo se muestra éxito si el servicio lo confirma */
+    async function sendToEndpoint() {
+      status.textContent = t.sending;
+      try {
+        const { url, payload } = buildRequest();
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !(data.success === true || data.success === "true")) {
+          // Solo el código y el mensaje del servicio (sin datos personales) para poder diagnosticar.
+          console.warn("Formulario:", response.status, data.message || "");
+          throw new Error("not delivered");
+        }
+        form.reset();
+        status.textContent = t.ok;
+      } catch (error) {
+        console.warn("Formulario:", error.message);
+        showMailOptions(t.failMail);   // no se pierde la solicitud
+      }
+    }
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      status.textContent = "";
+
+      const invalid = validate();
+      if (invalid) { invalid.focus(); return; }
+
+      if (config.web3formsKey || config.formEndpoint) await sendToEndpoint();
+      else showMailOptions(t.ready);
+      status.focus();
+    });
+  }
+
+  Trazo.form = { bind };
+})(window.Trazo);
+  </script>
+
+  <!-- ===================== transitions.js ===================== -->
+  <script>
+/* ==========================================================================
+   transitions.js — transiciones cinematográficas
+
+   Entre secciones:
+     1. Cinco persianas negras suben y cubren la pantalla (escalonadas).
+     2. Aparece el número y el nombre de la sección.
+     3. Se cambia la vista (aquí, tapada).
+     4. Las persianas siguen subiendo y descubren la nueva vista.
+     5. El contenido se revela: titulares por línea, imágenes con máscara,
+        hairlines que se dibujan, textos que suben.
+
+   Si el usuario navega otra vez a mitad de la animación, se congela el
+   estado actual y se continúa desde ahí (no se queda trabada).
+   ========================================================================== */
+
+(function (Trazo) {
+  "use strict";
+
+  const EASE_IN_OUT = "cubic-bezier(.76, 0, .24, 1)";
+  const EASE_OUT = "cubic-bezier(.16, 1, .3, 1)";
+
+  const COVER_MS = 650;
+  const LIFT_MS = 850;
+  const STAGGER_MS = 55;
+  const HOLD_MS = 220;   // pausa con la pantalla cubierta
+
+  const curtain = document.getElementById("curtain");
+  const strips = Array.from(curtain.querySelectorAll(".curtain__strip"));
+  const label = curtain.querySelector(".curtain__label");
+  const labelNum = curtain.querySelector(".curtain__num");
+  const labelName = curtain.querySelector(".curtain__name");
+
+  let token = 0;     // identifica la navegación vigente
+  let running = [];  // animaciones de la cortina en curso
+
+  const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- utilidades de animación ------------------------------------------ */
+
+  function play(el, frames, options) {
+    const animation = el.animate(frames, { fill: "both", ...options });
+    running.push(animation);
+    return animation.finished.catch(() => {});   // cancelar no debe lanzar error
+  }
+
+  /* Guarda el estado visual actual y detiene las animaciones */
+  function freeze() {
+    running.forEach(a => {
+      try { a.commitStyles(); } catch (_) { /* elemento no renderizado */ }
+      a.cancel();
+    });
+    running = [];
+  }
+
+  function resetCurtain() {
+    running.forEach(a => a.cancel());
+    running = [];
+    strips.forEach(s => { s.style.transform = "translateY(101%)"; });
+    label.style.opacity = "0";
+    label.style.transform = "translateY(1.5rem)";
+  }
+
+  /* --- fases de la cortina ---------------------------------------------- */
+
+  function cover() {
+    const stripAnims = strips.map((s, i) =>
+      play(s, [{ transform: "translateY(0)" }], {
+        duration: COVER_MS, delay: i * STAGGER_MS, easing: EASE_IN_OUT
+      }));
+    const labelAnim = play(label, [{ opacity: 1, transform: "translateY(0)" }], {
+      duration: 550, delay: 350, easing: EASE_OUT
+    });
+    return Promise.all([...stripAnims, labelAnim]);
+  }
+
+  function uncover() {
+    const stripAnims = strips.map((s, i) =>
+      play(s, [{ transform: "translateY(-101%)" }], {
+        duration: LIFT_MS, delay: HOLD_MS + i * STAGGER_MS, easing: EASE_IN_OUT
+      }));
+    const labelAnim = play(label, [{ opacity: 0, transform: "translateY(-1.5rem)" }], {
+      duration: 400, delay: HOLD_MS - 60, easing: EASE_IN_OUT
+    });
+    return Promise.all([...stripAnims, labelAnim]);
+  }
+
+  /* --- revelado del contenido ------------------------------------------- */
+
+  function reveal(root, baseDelay = 0) {
+    if (reducedMotion()) return;
+    const opts = (duration, delay, easing) => ({ duration, delay: baseDelay + delay, easing, fill: "backwards" });
+
+    root.querySelectorAll("[data-line]").forEach((el, i) => {
+      el.firstElementChild.animate(
+        [{ transform: "translateY(112%)" }, { transform: "translateY(0)" }],
+        opts(1100, i * 110, EASE_OUT));
+    });
+
+    root.querySelectorAll("[data-rise]").forEach((el, i) => {
+      el.animate(
+        [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }],
+        opts(900, 250 + Math.min(i, 12) * 80, EASE_OUT));
+    });
+
+    root.querySelectorAll("[data-rule]").forEach((el, i) => {
+      el.animate(
+        [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+        opts(1200, 150 + i * 120, EASE_OUT));
+    });
+
+    root.querySelectorAll("[data-mask]").forEach((el, i) => {
+      const delay = 200 + i * 150;
+      el.animate(
+        [{ clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)" }],
+        opts(1400, delay, EASE_IN_OUT));
+      el.firstElementChild.animate(
+        [{ transform: "scale(1.22)" }, { transform: "scale(1)" }],
+        opts(1900, delay, EASE_OUT));
+    });
+  }
+
+  /* --- cambio de sección ------------------------------------------------- */
+
+  /* info = { num: "02", name: "Servicios" }; swap() monta la nueva vista */
+  async function change(info, swap) {
+    if (reducedMotion()) { swap(); return; }
+
+    const my = ++token;
+    freeze();
+    labelNum.textContent = `${info.num} / 06`;
+    labelName.textContent = info.name;
+
+    await cover();
+    if (my !== token) return;          // el usuario navegó otra vez
+
+    swap();
+    reveal(document.getElementById("view"), HOLD_MS + 350);
+
+    await uncover();
+    if (my === token) resetCurtain();
+  }
+
+  Trazo.transitions = { change, reveal };
+})(window.Trazo);
+  </script>
+
+  <!-- ===================== app.js ===================== -->
+  <script>
+/* ==========================================================================
+   app.js — navegación, idioma y menú móvil
+
+   Rutas con hash:  #/es/servicios   #/en/contact...
+   Funciona igual en la raíz o en un subdirectorio de GitHub Pages.
+   ========================================================================== */
+
+(function (Trazo) {
+  "use strict";
+
+  const { content, state } = Trazo;
+  const ROUTES = ["inicio", "estudio", "servicios", "proyectos", "metodologia", "contacto"];
+
+  const $ = selector => document.querySelector(selector);
+  const view = $("#view");
+  const menu = $("#menu");
+  const burger = $("#burger");
+  const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const ui = () => content.ui[state.lang];
+  const href = route => `#/${state.lang}/${route}`;
+
+  /* --- ruta actual ------------------------------------------------------- */
+
+  function parseHash() {
+    const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+    let lang = state.lang;
+    if (parts[0] === "es" || parts[0] === "en") lang = parts.shift();
+    const route = ROUTES.includes(parts[0]) ? parts[0] : "inicio";
+    return { lang, route };
+  }
+
+  /* --- imágenes: muestra el archivo real solo cuando existe -------------- */
+
+  function watchImages(root) {
+    root.querySelectorAll("img").forEach(img => {
+      const box = img.parentElement;
+      const show = () => box.classList.add("is-loaded");
+      if (img.complete && img.naturalWidth) show();
+      else img.addEventListener("load", show, { once: true });
+    });
+  }
+
+  /* --- cabecera, menú y metadatos ---------------------------------------- */
+
+  function renderChrome() {
+    const t = ui();
+    document.documentElement.lang = state.lang;
+
+    const links = ROUTES.map((route, i) =>
+      `<li><a href="${href(route)}"${route === state.route ? ' aria-current="page"' : ""}>${t.nav[i]}</a></li>`
+    ).join("");
+    $("#nav-list").innerHTML = links;
+    $("#menu-list").innerHTML = links;
+
+    const logo = $("#logo");
+    logo.href = href("inicio");
+    logo.setAttribute("aria-label", t.logo);
+
+    burger.textContent = t.menu;
+    $("#menu-close").textContent = t.close;
+    $("#skip").textContent = t.skip;
+    menu.setAttribute("aria-label", t.menu);
+
+    document.querySelectorAll(".langs button").forEach(b =>
+      b.setAttribute("aria-pressed", String(b.dataset.lang === state.lang)));
+
+    $('meta[name="description"]').content = t.meta;
+    $('meta[property="og:description"]').content = t.meta;
+  }
+
+  /* --- montaje de una vista --------------------------------------------- */
+
+  function mount(route, { focus }) {
+    state.route = route;
+    renderChrome();
+
+    view.innerHTML = Trazo.views[route]();
+    watchImages(view);
+
+    if (route === "contacto") Trazo.form.bind();
+
+    const title = `${ui().nav[ROUTES.indexOf(route)]} — Trazo 24`;
+    document.title = title;
+    $("#live").textContent = title;
+
+    window.scrollTo(0, 0);
+    if (focus) view.querySelector("h1").focus({ preventScroll: true });
+  }
+
+  /* --- navegación -------------------------------------------------------- */
+
+  function render(isFirst) {
+    const next = parseHash();
+    if (!isFirst && next.lang === state.lang && next.route === state.route) return;
+
+    const onlyLanguageChanged = !isFirst && next.lang !== state.lang && next.route === state.route;
+    state.lang = next.lang;
+
+    if (isFirst || onlyLanguageChanged) {
+      mount(next.route, { focus: !isFirst });
+      Trazo.transitions.reveal(view, isFirst ? 150 : 0);
+      return;
+    }
+
+    const index = ROUTES.indexOf(next.route);
+    Trazo.transitions.change(
+      { num: `0${index + 1}`, name: ui().nav[index] },
+      () => mount(next.route, { focus: true })
+    );
+  }
+
+  /* --- menú móvil -------------------------------------------------------- */
+
+  function setMenuOpen(open) {
+    menu.hidden = !open;
+    burger.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+    $("#header").inert = open;
+    view.inert = open;
+
+    if (!open) return;
+    $("#menu-close").focus();
+    if (reducedMotion()) return;
+
+    menu.animate(
+      [{ clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)" }],
+      { duration: 650, easing: "cubic-bezier(.76, 0, .24, 1)" });
+    menu.querySelectorAll("li").forEach((li, i) =>
+      li.animate(
+        [{ opacity: 0, transform: "translateY(2rem)" }, { opacity: 1, transform: "none" }],
+        { duration: 800, delay: 250 + i * 70, easing: "cubic-bezier(.16, 1, .3, 1)", fill: "backwards" }));
+  }
+
+  burger.addEventListener("click", () => setMenuOpen(true));
+  $("#menu-close").addEventListener("click", () => { setMenuOpen(false); burger.focus(); });
+  $("#menu-list").addEventListener("click", e => { if (e.target.closest("a")) setMenuOpen(false); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !menu.hidden) { setMenuOpen(false); burger.focus(); }
+  });
+
+  /* --- idioma, enlaces de servicio y salto al contenido ------------------ */
+
+  document.querySelectorAll(".langs").forEach(group =>
+    group.addEventListener("click", e => {
+      const button = e.target.closest("button");
+      if (button && button.dataset.lang !== state.lang) {
+        location.hash = `#/${button.dataset.lang}/${state.route}`;
+      }
+    }));
+
+  $("#skip").addEventListener("click", e => { e.preventDefault(); view.focus(); });
+
+  window.addEventListener("hashchange", () => render(false));
+
+  /* --- inicio ------------------------------------------------------------ */
+
+  watchImages($("#logo"));
+
+  const initial = parseHash();
+  if (!/^#\/(es|en)\//.test(location.hash)) {
+    // En vistas previas con sandbox el navegador puede impedir cambiar la URL.
+    try { history.replaceState(null, "", `#/${initial.lang}/${initial.route}`); } catch (_) { /* se ignora */ }
+  }
+  render(true);
+})(window.Trazo);
+  </script>
+</body>
+</html>
